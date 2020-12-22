@@ -47,6 +47,9 @@
 use super::*;
 
 use std::collections::*;
+use num_bigint::BigUint;
+use num_traits::{Zero, One};
+
 
 pub fn part1(input: &str) -> usize {
     let mut decks = vec![];
@@ -110,6 +113,14 @@ pub fn part2(input: &str) -> usize {
         .sum()
 }
 
+fn bihash(deck: &VecDeque<usize>) -> BigUint {
+  let mut res = Zero::zero();
+  for i in deck.iter() {
+      res = (res << 1) + i;
+  }
+  return res;
+}
+
 fn play_game(
     mut deck1: VecDeque<usize>,
     mut deck2: VecDeque<usize>,
@@ -117,6 +128,8 @@ fn play_game(
     // let mut seen1 = HashSet::new();
     // let mut seen2 = HashSet::new();
     let mut seen = HashSet::new();
+    let mut h1 = bihash(&deck1);
+    let mut h2 = bihash(&deck2);
 
     while !deck1.is_empty() && !deck2.is_empty() {
         // if seen1.contains(&deck1) && seen2.contains(&deck2) {
@@ -125,11 +138,13 @@ fn play_game(
         // seen1.insert(deck1.clone());
         // seen2.insert(deck2.clone());
 
-        let decks = (deck1.clone(), deck2.clone());
+        let decks = (h1.clone(), h2.clone());
         if seen.contains(&decks) {
             return (1, deck1, deck2);
         }
         seen.insert(decks);
+        h1 = h1 & ((BigUint::one()<<7*deck1.len()) - BigUint::one());
+        h2 = h2 & ((BigUint::one()<<7*deck2.len()) - BigUint::one());
 
         let player1_card = deck1.pop_front().unwrap();
         let player2_card = deck2.pop_front().unwrap();
@@ -150,9 +165,11 @@ fn play_game(
             if winner == 1 {
                 deck1.push_back(player1_card);
                 deck1.push_back(player2_card);
+                h1 = (h1 << 14) + ((player1_card) << 7) + (player2_card);
             } else {
                 deck2.push_back(player2_card);
                 deck2.push_back(player1_card);
+                h2 = (h2 << 14) + ((player2_card) << 7) +( player1_card);
             }
             continue;
         }
@@ -160,9 +177,11 @@ fn play_game(
         if player1_card > player2_card {
             deck1.push_back(player1_card);
             deck1.push_back(player2_card);
+            h1 = (h1 << 14) + ((player1_card) << 7) + (player2_card);
         } else {
             deck2.push_back(player2_card);
             deck2.push_back(player1_card);
+            h2 = (h2 << 14) + ((player2_card) << 7) +( player1_card);
         }
     }
 
