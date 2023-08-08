@@ -1,0 +1,30 @@
+[package]
+name = "aoc"
+version = "0.1.0"
+edition = "2021"
+autobins = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[dependencies]
+anyhow = "1.0.71"
+bumpalo = { version = "3.13.0", features = ["collections"] }
+clap = { version = "*", features = ["derive"] }
+concat-idents = "1.1.4"
+criterion = { version = "0.4.0", features = ["html_reports"] }
+hashbrown = "0.13.1"
+itertools = "0.10.5"
+memoize = "0.3.3"
+rustc-hash = "1.1.0"
+sscanf="0.4.0"
+
+[dev-dependencies]
+criterion = { version = "0.4.0", features = ["html_reports"] }
+#pprof = { version = "0.11.1", features = ["flamegraph", "criterion", "protobuf-codec"] }
+
+[[bench]]
+name = "y2022"
+harness = false
+
+[[bin]]
+name = "y2022"
+path = "src/y2022/main.rs"
