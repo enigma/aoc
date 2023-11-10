@@ -128,7 +128,7 @@ $ ls
 
     #[test]
     fn actual() {
-        let path = &"inputs/2022/07.input".to_string();
+        let path = &"../inputs/2022/07.input".to_string();
         let input = &parse(path);
         assert_eq!(part1(&input), 919137);
         assert_eq!(part2(&input), 2877389);

@@ -241,7 +241,7 @@ noop";
 
     #[test]
     fn actual() {
-        let path = &"inputs/2022/10.input".to_string();
+        let path = &"../inputs/2022/10.input".to_string();
         let input = &parse(path);
         assert_eq!(part1(&input), 16060);
         assert_eq!(

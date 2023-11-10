@@ -70,7 +70,7 @@ C Z";
 
     #[test]
     fn actual() {
-        let numbers = parse(&"inputs/2022/02.input".to_string());
+        let numbers = parse(&"../inputs/2022/02.input".to_string());
         assert_eq!(part1(&numbers), 13675);
         assert_eq!(part2(&numbers), 14184);
     }

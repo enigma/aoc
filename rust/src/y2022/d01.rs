@@ -70,7 +70,7 @@ mod tests {
 
     #[test]
     fn actual() {
-        let numbers = parse(&"inputs/2022/01.input".to_string());
+        let numbers = parse(&"../inputs/2022/01.input".to_string());
         assert_eq!(part1(&numbers), 71124);
         assert_eq!(part2(&numbers), 204639);
     }

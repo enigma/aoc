@@ -151,7 +151,7 @@ Valve JJ has flow rate=21; tunnel leads to valve II";
 
     #[test]
     fn actual() {
-        let path = &"inputs/2022/16.input".to_string();
+        let path = &"../inputs/2022/16.input".to_string();
         let input = &parse(path);
         assert_eq!(part1(&input), 1850);
         assert_eq!(part2(&input), 2306);
@@ -160,7 +160,7 @@ Valve JJ has flow rate=21; tunnel leads to valve II";
 
 use criterion::Criterion;
 pub fn bench(c: &mut Criterion) {
-    let path = &"inputs/2022/16.input".to_string();
+    let path = &"../inputs/2022/16.input".to_string();
     let contents = fs::read_to_string(path).expect("Something went wrong reading the file.");
     let parse = || parse_str(&contents);
     let parsed = parse();

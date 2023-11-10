@@ -16,7 +16,7 @@ macro_rules! aoc_main {
                 eprintln!("Running all y{} on default path", year);
                 $(
                         let day = $day;
-                        let path = format!("inputs/{}/{:02}.input", year, day);
+                        let path = format!("../inputs/{}/{:02}.input", year, day);
                         let parsing = $module::parse(&path);
                         let part1 = $module::part1(&parsing);
                         println!("y{}::d{:02} part1: {}", year, day, part1);
@@ -34,7 +34,7 @@ macro_rules! aoc_main {
             let path = if args.len() > 2 {
                 args[2].clone()
             } else {
-                format!("inputs/{}/{:02}.input", year, day)
+                format!("../inputs/{}/{:02}.input", year, day)
             };
 
             eprintln!("Running y{}::d{:02} on path '{}'", year, day, path);
@@ -61,7 +61,7 @@ macro_rules! aoc_bench {
         use criterion::{criterion_group, criterion_main, Criterion};
         pub fn bench_singles(c: &mut Criterion) {
             $(
-                let path = format!("inputs/{}/{:02}.input", $year, $day);
+                let path = format!("../inputs/{}/{:02}.input", $year, $day);
                 let contents = std::fs::read_to_string(path).expect("Something went wrong reading the file.");
                 c.bench_function(&format!("y{} d{:02} parsing", $year, $day), |b| b.iter(|| $module::parse_str(&contents)));
                 let parsing = $module::parse_str(&contents);
@@ -83,7 +83,7 @@ macro_rules! aoc_bench {
             c.bench_function(
                 &format!("y{} total", $year), |b| b.iter(|| {
                     $(
-                        let path = format!("inputs/{}/{:02}.input", $year, $day);
+                        let path = format!("../inputs/{}/{:02}.input", $year, $day);
                         let parsed = $module::parse(&path);
                         $module::part1(&parsed);
                         $module::part2(&parsed);

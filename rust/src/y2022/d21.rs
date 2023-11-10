@@ -170,7 +170,7 @@ hmdt: 32
 
     #[test]
     fn actual() {
-        let path = &"inputs/2022/21.input".to_string();
+        let path = &"../inputs/2022/21.input".to_string();
         let input = &parse(path);
         assert_eq!(part1(&input), 31017034894002);
         assert_eq!(part2(&input), 3555057453229);

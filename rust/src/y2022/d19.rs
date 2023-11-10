@@ -199,7 +199,7 @@ Blueprint 2: Each ore robot costs 2 ore. Each clay robot costs 3 ore. Each obsid
 
     #[test]
     fn actual() {
-        let path = &"inputs/2022/19.input".to_string();
+        let path = &"../inputs/2022/19.input".to_string();
         let input = &parse(path);
         assert_eq!(part1(&input), 1719);
         assert_eq!(part2(&input), 19530);

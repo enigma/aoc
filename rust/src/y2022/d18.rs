@@ -321,7 +321,7 @@ mod tests {
 
     #[test]
     fn actual() {
-        let path = &"inputs/2022/18.input".to_string();
+        let path = &"../inputs/2022/18.input".to_string();
         let input = &parse(path);
         assert_eq!(part1(&input), 4302);
         assert_eq!(part2(&input), 2492);

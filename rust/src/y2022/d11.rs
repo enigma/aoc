@@ -150,7 +150,7 @@ Monkey 3:
 
     #[test]
     fn actual() {
-        let path = &"inputs/2022/11.input".to_string();
+        let path = &"../inputs/2022/11.input".to_string();
         let input = &parse(path);
         assert_eq!(part1(&input), 95472);
         assert_eq!(part2(&input), 17926061332);
