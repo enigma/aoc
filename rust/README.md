@@ -2,7 +2,8 @@
 
 ## Perfomance
 
-See [y2022 results](benches/y2022.md)
+- [y2023 results](benches/y2023.md)  
+- [y2022 results](benches/y2022.md)
 
 ## Objectives
 
@@ -18,14 +19,14 @@ To make code easier to share with others (and godbolt) each day should be copy-p
 ### Run on your input
 
 ```sh
-YEAR=2022; DAY=14
+YEAR=2023; DAY=14
 cargo build --release
 target/release/y$YEAR $DAY path/to/your/input/file
 ```
 
 ### Run on `inputs/` for all days
 ```sh
-YEAR=2022
+YEAR=2023
 cargo build --release
 target/release/y$YEAR
 ```
@@ -33,31 +34,35 @@ target/release/y$YEAR
 ### Test
 
 ```sh
-YEAR=2022; DAY=d01; cargo test y$YEAR::$DAY 
+YEAR=2023; DAY=d01; cargo test y$YEAR::$DAY 
 ```
 
 ### Benchmark:
 
 ```sh
-YEAR=2022; DAY=d01; cargo bench --bench y$YEAR -- $DAY
+YEAR=2023; DAY=d01; cargo bench --bench y$YEAR -- $DAY
 ```
 
 ### Dev cycle:
 
 ```sh
-YEAR=2022; DAY=d01; cargo watch -x "test y$YEAR::$DAY && cargo bench --bench y$YEAR -- $DAY"
+YEAR=2023; DAY=d01; cargo watch -x "test y$YEAR::$DAY && cargo bench --bench y$YEAR -- $DAY"
 ```
 
 ### Save criterion benchmark baseline:
 
 ```sh
-YEAR=2022; cargo bench --bench y$YEAR -- --save-baseline base
+YEAR=2023; cargo bench --bench y$YEAR -- --save-baseline base
 python benches/bench_report.py target $YEAR > benches/y$YEAR.md
 ```
 
 ### Save hyperfine benchmarks:
 
 ```sh
-YEAR=2022
+YEAR=2023
 hyperfine --warmup 3 --export-markdown benches/hyperfine.$YEAR.md -P day 1 25  "target/release/y$YEAR {day} inputs/$YEAR/\$(printf '%02d' {day}).input"
+```
+
+```sh
+YEAR=2023; cmds=(); for i in {1..25}; do cmds+=("./target/release/y$YEAR $i"); done;cmds+=("./target/release/y$YEAR"); hyperfine --warmup 10 --export-markdown benches/hyperfine.$YEAR.md -N $cmds
 ```

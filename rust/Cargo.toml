@@ -28,3 +28,11 @@ harness = false
 [[bin]]
 name = "y2022"
 path = "src/y2022/main.rs"
+
+[[bench]]
+name = "y2023"
+harness = false
+
+[[bin]]
+name = "y2023"
+path = "src/y2023/main.rs"

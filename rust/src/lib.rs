@@ -3,6 +3,7 @@
 //pub mod y2020;
 //pub mod y2021;
 pub mod y2022;
+pub mod y2023;
 
 #[macro_export]
 macro_rules! aoc_main {
