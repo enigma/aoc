@@ -11,7 +11,7 @@ anyhow = "1.0.71"
 # concat-idents = "1.1.4"
 criterion = { version = "0.5.1", features = ["html_reports"] }
 fnv = "1.0.7"
-hashbrown = "0.13.1"
+hashbrown = "0.14.3"
 itertools = "0.10.5"
 memoize = "0.3.3"
 num-integer = "0.1.45"
