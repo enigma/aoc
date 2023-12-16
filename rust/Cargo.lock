@@ -52,6 +52,7 @@ dependencies = [
  "itertools",
  "memoize",
  "num-integer",
+ "rayon",
  "rustc-hash",
  "sscanf",
 ]
