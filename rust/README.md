@@ -64,5 +64,5 @@ hyperfine --warmup 3 --export-markdown benches/hyperfine.$YEAR.md -P day 1 25  "
 ```
 
 ```sh
-YEAR=2023; DAY=25; cmds=(); for i in {1..$DAY}; do cmds+=("./target/release/y$YEAR $i"); done;cmds+=("./target/release/y$YEAR"); hyperfine --warmup 10 --export-markdown benches/hyperfine.$YEAR.md -N $cmds
+YEAR=2023; DAY=25; cmds=(); for i in {1..$DAY}; do cmds+=("./target/release/y$YEAR $i"); done;cmds+=("./target/release/y$YEAR"); cmds+=("./target/release/y$YEAR -parallel"); hyperfine --warmup 10 --export-markdown benches/hyperfine.$YEAR.md -N $cmds
 ```

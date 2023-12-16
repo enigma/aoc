@@ -28,6 +28,36 @@ macro_rules! aoc_main {
                 return;
             }
 
+            if args[1].starts_with("-p") {
+                use rayon::iter::IntoParallelIterator;
+                use rayon::iter::ParallelIterator;
+                use rayon::iter::IndexedParallelIterator;
+                use std::fmt::Display;
+                type Res = String;
+                let mut lambdas = vec![];
+
+                eprintln!("Running all y{} on default path, in parallel", year);
+                $(
+                    lambdas.push(Box::new(|| {
+                        let day = $day;
+                        let path = format!("../inputs/{}/{:02}.input", year, day);
+                        let parsing = $module::parse(&path);
+                        let part1 = $module::part1(&parsing);
+                        let part2 = $module::part2(&parsing);
+                        format!(
+                            "y{}::d{:02} part1: {}\ny{}::d{:02} part2: {}\n",
+                            year, day, part1, year, day, part2
+                        ).to_string()
+                    }) as Box<dyn Fn() -> Res + Send + Sync>);
+                )*
+
+                let mut v: Vec<(usize, String)> = lambdas.into_par_iter().enumerate()
+                    .map(|(i, lambda)| (i, lambda())).collect();
+                v.sort();
+                v.iter().for_each(|(_, s)| println!("{}", s));
+                return;
+            }
+
             let day = args[1]
                 .parse::<usize>()
                 .expect(&format!("Must pass an integer day, found {:?}", args[1]));
