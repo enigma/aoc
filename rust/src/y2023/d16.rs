@@ -86,19 +86,6 @@ pub fn part2(grid: &ParsedData) -> usize {
         .map(|(start, dir)| energy(grid, start, dir))
         .max()
         .unwrap()
-
-    // let ymax = (0..h)
-    //     .into_par_iter()
-    //     .map(|y| energy(grid, (y, 0), 0).max(energy(grid, (y, w - 1), 2)))
-    //     .max()
-    //     .unwrap();
-
-    // let xmax = (0..w)
-    //     .into_par_iter()
-    //     .map(|x| energy(grid, (0, x), 1).max(energy(grid, (h - 1, x), 3)))
-    //     .max()
-    //     .unwrap();
-    // ymax.max(xmax)
 }
 
 #[cfg(test)]
