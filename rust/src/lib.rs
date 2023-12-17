@@ -1,4 +1,5 @@
 #![feature(int_roundings)]
+#![feature(allocator_api)]
 
 //pub mod y2020;
 //pub mod y2021;

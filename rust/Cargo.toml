@@ -7,7 +7,7 @@ autobins = true
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [dependencies]
 anyhow = "1.0.71"
-# bumpalo = { version = "3.14.0", features = ["collections", "boxed"] }
+bumpalo = { version = "3.14.0", features = ["collections", "boxed", "allocator_api"] }
 # concat-idents = "1.1.4"
 criterion = { version = "0.5.1", features = ["html_reports"] }
 fnv = "1.0.7"

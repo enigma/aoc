@@ -1,6 +1,7 @@
 use itertools::Itertools;
 use std::{cmp::Reverse, collections::BinaryHeap, fs};
 pub type ParsedData = Vec<Vec<u16>>;
+use bumpalo::Bump;
 
 #[inline]
 pub fn parse_str(contents: &str) -> ParsedData {
@@ -29,11 +30,12 @@ pub fn parse(path: &String) -> ParsedData {
 }
 
 fn min_loss(grid: &ParsedData, mmin: isize, mmax: isize) -> usize {
+    let arena = Bump::new();
     let (h, w) = (grid.len() as isize, grid[0].len() as isize);
     let data = (h * w) as usize;
     let mut cache = vec![usize::MAX; 2 * data];
     let end = (h - 1, w - 1);
-    let mut fringe = BinaryHeap::with_capacity(if mmin == 1 { 1000 } else { 50000 });
+    let mut fringe = BinaryHeap::with_capacity_in(if mmin == 1 { 1000 } else { 50000 }, &arena);
     fringe.push(Reverse((0, 0, (0, 0), 0b1111 as u8)));
     let mut seen = [[0u8; 142]; 142];
     while let Some(Reverse((_heu, lost, (y, x), viable))) = fringe.pop() {

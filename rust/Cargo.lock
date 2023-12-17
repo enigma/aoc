@@ -52,6 +52,7 @@ name = "aoc"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "bumpalo",
  "criterion",
  "fnv",
  "hashbrown",
