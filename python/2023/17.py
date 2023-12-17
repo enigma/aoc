@@ -15,6 +15,7 @@ def min_loss(grid, mmin, mmax):
     h, w = len(grid), len(grid[0])
     fringe = [(0, 0, (0, 0), DIRS)]
     seen = set()
+    cache = [(h*w)**3 for _ in range(h*w*2)]
     while fringe:
         _heu, lost, (y, x), viable_dirs = heappop(fringe)
         if (y, x) == (h-1, w-1):
@@ -25,6 +26,7 @@ def min_loss(grid, mmin, mmax):
         seen.add(k)
         for dy, dx in viable_dirs:
             nxt_viable = tuple(i for i in DIRS if i not in ((-dy, -dx), (dy, dx)))
+            ii = DIRS.index((dy, dx)) % 2
             nxt_lost = lost
             for i in range(1, mmax+1):
                 ny = y + i * dy
@@ -33,6 +35,10 @@ def min_loss(grid, mmin, mmax):
                     nxt_lost += grid[ny][nx]
                     if i < mmin:
                         continue
+                    ci = 2 * (ny * h + nx) + ii
+                    if cache[ci] <= nxt_lost:
+                        continue
+                    cache[ci] = nxt_lost
                     nxt_heu = nxt_lost + abs(h-ny) + abs(w-nx)
                     heappush(fringe, (nxt_heu, nxt_lost, (ny, nx), nxt_viable))
 

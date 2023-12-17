@@ -30,6 +30,8 @@ pub fn parse(path: &String) -> ParsedData {
 
 fn min_loss(grid: &ParsedData, mmin: isize, mmax: isize) -> usize {
     let (h, w) = (grid.len() as isize, grid[0].len() as isize);
+    let data = (h * w) as usize;
+    let mut cache = vec![usize::MAX; 2 * data];
     let end = (h - 1, w - 1);
     let mut fringe = BinaryHeap::with_capacity(if mmin == 1 { 1000 } else { 50000 });
     fringe.push(Reverse((0, 0, (0, 0), 0b1111 as u8)));
@@ -58,6 +60,11 @@ fn min_loss(grid: &ParsedData, mmin: isize, mmax: isize) -> usize {
                     if i < mmin {
                         continue;
                     }
+                    let ci = (2 * (ny * h + nx) + ii as isize % 2) as usize;
+                    if cache[ci] <= nxt_lost {
+                        continue;
+                    }
+                    cache[ci] = nxt_lost;
                     let nxt_heu = nxt_lost + (h - ny + w - nx) as usize;
                     fringe.push(Reverse((nxt_heu, nxt_lost, (ny, nx), nxt_viable)));
                 }
