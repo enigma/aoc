@@ -1,0 +1,10 @@
+
+{:paths ["src" "."]
+ :tasks
+ {
+  pip {:task (do
+              (shell "uv pip compile --no-strip-extras requirements.in -o requirements.txt")
+              (shell "uv pip sync requirements.txt"))
+       }
+ }
+}
