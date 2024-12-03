@@ -1,0 +1,20 @@
+{
+ :tasks
+ {get-input
+  {:doc "Download input file for Advent of Code puzzle. Defaults to current year/day."
+   :task (let [config (clojure.edn/read-string (slurp ".env.edn"))
+               today (java.time.LocalDate/now)
+               year (or (first *command-line-args*) (.getYear today))
+               day (or (second *command-line-args*) (.getDayOfMonth today))
+               token (:aoc-token config)
+               url (format "https://adventofcode.com/%s/day/%s/input" year day)
+               input-dir (format "inputs/%s" year)
+               input-file (format "%s/%02d.input" input-dir day)]
+           (when-not (.exists (java.io.File. input-dir))
+             (.mkdirs (java.io.File. input-dir)))
+           (spit input-file
+                 (:body
+                  (babashka.http-client/get
+                   url
+                   {:headers {"Cookie" (str "session=" token)}})))
+           (println "Downloaded" input-file))}}}

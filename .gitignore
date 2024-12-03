@@ -1,5 +1,7 @@
+.env.edn
 .DS_Store
 .clj-kondo
 .lsp
 .ruff_cache
 .vscode
+.calva/
