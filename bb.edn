@@ -5,7 +5,7 @@
    :task (let [config (clojure.edn/read-string (slurp ".env.edn"))
                today (java.time.LocalDate/now)
                year (or (first *command-line-args*) (.getYear today))
-               day (or (second *command-line-args*) (.getDayOfMonth today))
+               day (or (Integer/parseInt (second *command-line-args*)) (.getDayOfMonth today))
                token (:aoc-token config)
                url (format "https://adventofcode.com/%s/day/%s/input" year day)
                input-dir (format "inputs/%s" year)
