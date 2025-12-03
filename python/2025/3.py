@@ -13,10 +13,10 @@ def max_jolt(bank, size):
         result = cur = None
         for i in range(start, len(bank) - size + 1):
             if cur is None or bank[i] > cur:
+                cur = bank[i]
                 if size == 1:
-                    result = cur = bank[i]
+                    result = cur
                 elif (candidate := _max_jolt(i + 1, size - 1)) is not None:
-                    cur = bank[i]
                     result = cur * (10 ** (size - 1)) + candidate
         return result
 
