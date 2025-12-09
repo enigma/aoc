@@ -41,7 +41,10 @@
        vals
        (apply +)))
 
-(let [input (->> *command-line-args* last slurp parse)
-      res {:part1 (part1 input)
-           :part2 (part2 input)}]
-  (prn res))
+
+(when (= *file* (System/getProperty "babashka.file"))
+  (let [input (->> *command-line-args* last slurp parse)
+        res {:part1 (part1 input)
+             :part2 (part2 input)}]
+    (prn res)))
+

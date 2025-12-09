@@ -3,6 +3,8 @@
 (ns y2025.d06
   (:require [clojure.string :as str]))
 
+(def parse identity)
+
 (defn parse1 [data]
   (let [rows     (->> data str/split-lines)
         ops      (mapv {"+" + "*" *} (-> rows last (str/split #" +")))
@@ -33,6 +35,8 @@
 
 (defn part2 [data] (-> data parse2 solve))
 
-(let [input (-> *command-line-args* last slurp)]
-  (prn {:part1 (part1 input)
-        :part2 (part2 input)}))
+(when (= *file* (System/getProperty "babashka.file"))
+  (let [input (->> *command-line-args* last slurp parse)
+        res {:part1 (part1 input)
+             :part2 (part2 input)}]
+    (prn res)))
