@@ -1,0 +1,28 @@
+
+{:paths ["src" "."]
+ :tasks
+ {
+  hyperfine {:doc "Generate hyperfine benchmark command for a year (default: latest)"
+             :requires ([babashka.process :refer [shell]]
+                        [clojure.string :as str]
+                        [babashka.fs :as fs])
+             :task (let [latest-year (->> (fs/list-dir ".")
+                                          (map fs/file-name)
+                                          (keep (fn [n] (second (re-matches (re-pattern "y(\\d{4})") n))))
+                                          sort
+                                          last)
+                         year (or (first *command-line-args*) latest-year)
+                         ydir (str "y" year)
+                         days (->> (fs/list-dir ydir)
+                                   (map fs/file-name)
+                                   (keep (fn [f] (second (re-matches (re-pattern "d(\\d+)\\.bb") f))))
+                                   (map parse-long)
+                                   sort)
+                         cmds (cons "bb -e nil"
+                                    (for [d days]
+                                      (format "bb %s/d%02d.bb ../inputs/%s/%02d.input"
+                                              ydir d year d)))]
+                     (apply shell "hyperfine" "--warmup" "5" "--shell=none" "--export-markdown"
+                            (str ydir "/README.md") cmds))}
+ }
+}
