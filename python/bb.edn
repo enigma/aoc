@@ -2,9 +2,27 @@
 {:paths ["src" "."]
  :tasks
  {
-  pip {:task (do
-              (shell "uv pip compile --no-strip-extras requirements.in -o requirements.txt")
-              (shell "uv pip sync requirements.txt"))
-       }
+  hyperfine {:doc "Generate hyperfine benchmark command for a year (default: latest)"
+             :requires ([babashka.process :refer [shell]]
+                        [clojure.string :as str]
+                        [babashka.fs :as fs])
+             :task (let [latest-year (->> (fs/list-dir ".")
+                                          (map fs/file-name)
+                                          (filter (fn [n] (re-matches (re-pattern "\\d{4}") n)))
+                                          sort
+                                          last)
+                         year (or (first *command-line-args*) latest-year)
+                         py   (str year "/.venv/bin/python")
+                         days (->> (fs/list-dir year)
+                                   (map fs/file-name)
+                                   (keep (fn [f] (second (re-matches (re-pattern "(\\d+)\\.py") f))))
+                                   (map parse-long)
+                                   sort)
+                         cmds (cons (str py " -c pass")
+                                    (for [d days]
+                                      (format "%s %s/%d.py ../inputs/%s/%02d.input"
+                                              py year d year d)))]
+                     (apply shell "hyperfine" "--warmup" "5" "--shell=none" "--export-markdown"
+                            (str year "/README.md") cmds))}
  }
 }
